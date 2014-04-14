@@ -39,7 +39,7 @@ You'll need to use the IP address when using a physical device. Change the port 
 
 ## Running tests
 
-The tests use nodeunit. To run them you'll need to install `node.js` first, and then nodeunit globally:
+The tests use [nodeunit](https://github.com/caolan/nodeunit). To run them you'll need to install `node.js` first, and then nodeunit globally:
 
 ````bash
 npm install nodeunit -g
