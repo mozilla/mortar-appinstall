@@ -1,0 +1,18 @@
+language: node_js
+
+node_js:
+  - "0.10"
+
+notifications:
+  irc:
+    channels:
+      - "irc.mozilla.org#apps"
+    on_success: always
+    on_failure: always
+    use_notice: true
+
+install:
+  - ./travis_install.sh
+
+script:
+  - nodeunit $(pwd)/tests/tests.js

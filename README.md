@@ -37,6 +37,20 @@ then access `localhost:8000` or `your.computer.ip:8000` (for example, `192.168.0
 
 You'll need to use the IP address when using a physical device. Change the port accordingly, if you're running a webserver in this port already.
 
+## Running tests
+
+The tests use nodeunit. To run them you'll need to install `node.js` first, and then nodeunit globally:
+
+````bash
+npm install nodeunit -g
+````
+
+Then cd to the library directory and run
+
+````
+nodeunit tests/tests.js
+````
+
 
 ## Code walkthrough
 
