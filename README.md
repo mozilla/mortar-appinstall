@@ -28,30 +28,7 @@ Include the library in the document from where you want to manage the installati
 <script src="main.js"></script>
 ````
 
-Most of the methods in `AppInstall` are asynchronous, meaning they will return immediately without blocking execution, but the actual results might take a little longer to be obtained, and will be returned via a callback. For example, if you want to check if the app is installed already:
-
-````javascript
-// Generates an absolute path to manifest.webapp,
-// even if running from a folder.
-// Or you can pass it the path to the file too, it's up to you.
-var manifestPath = AppInstall.guessManifestPath(); 
-
-// We'll pass this callback as a parameter to AppInstall.isInstalled
-// It's cleaner to define it here rather than passing it inline
-function isInstalledResult(error, appIsInstalled) {
-	if(error) {
-		alert('There was an error checking for installation status');
-	} else {
-		if(appIsInstalled) {
-			alert('App is installed');
-		} else {
-			alert('App is not installed yet');
-		}
-	}
-}
-
-AppInstall.isInstalled(manifestPath, isInstalledResult);
-````
+Most of the methods in `AppInstall` are asynchronous, meaning they will return immediately without blocking execution, but the actual results might take a little longer to be obtained, and will be returned via a callback. See the reference for each function for more information.
 
 Apps cannot be installed if the page is accessed via the `file:///` protocol. That means you'll get either all failures or security errors if you try to install or check for install status from a document.
 
@@ -93,15 +70,58 @@ For example, if you're calling `guessManifestPath` from `http://localhost:8000/i
 
 ### `isInstalled(manifestPath, callback)` - checking if the app is already installed (asynchronous)
 
-TODO
+You can use `guessManifestPath` to fill in the value of `manifestPath`. The callback signature is `(error, appIsInstalled)`, meaning if there's an error it will be passed as a String, else it will be false and the actual answer to the `isInstalled` question will be the value of `appIsInstalled`. For example:
+
+````javascript
+// Generates an absolute path to manifest.webapp,
+// even if running from a folder.
+// Or you can pass it the path to the file too, it's up to you.
+var manifestPath = AppInstall.guessManifestPath(); 
+
+// We'll pass this callback as a parameter to AppInstall.isInstalled
+// It's cleaner to define it here rather than passing it inline
+function isInstalledResult(error, appIsInstalled) {
+	if(error) {
+		alert('There was an error checking for installation status');
+	} else {
+		if(appIsInstalled) {
+			alert('App is installed');
+		} else {
+			alert('App is not installed yet');
+		}
+	}
+}
+
+AppInstall.isInstalled(manifestPath, isInstalledResult);
+````
 
 ### install(manifestPath, callback) - initiate the app installation process (asynchronous)
 
-TODO
+As in `isInstalled`, you can use `guessManifestPath` to fill the value of `manifestPath`.
 
-### setupMockups() - for testing purposes (synchronous)
+The callback signature is `(error)`. As before, when the process is completed, if there was an error it will be a String in the `error` parameter, else if everything went well, `error` will be false and your app will have been installed successfully.
 
-TODO
+````javascript
+var manifestPath = AppInstall.guessManifestPath();
+
+function installResult(error) {
+	if(error) {
+		alert('Error installing: ' + error);
+	} else {
+		alert('App was installed, yay');
+		// Perhaps hide install button now!
+	}
+}
+
+AppInstall.install(manifestPath, installResult);
+
+````
+
+### setupMockups(mockupWindow) - for testing purposes (synchronous)
+
+Since we run tests in a `node.js` environment but that environment doesn't have a `window` object let alone a `mozApps` property in `window`, we have to somehow simulate that exists. So the purpose of `setupMockups` is to pass in a mockup object that acts as `window` would, only it's not a true `window` object, so we can configure it to have `mozApps` fail or be successful on purpose and test that the right things happen at the right moment.
+
+You generally won't need to use this method on your day to day app installing activities. Have a look at the `tests/tests.js` file to see it in action.
 
 
 ## Running tests
