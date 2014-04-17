@@ -77,11 +77,11 @@
 
 
   var AppInstall = {
-    setupMockups: setupMockups,
+	isInstallable: isInstallable,
     guessManifestPath: guessManifestPath,
-    install: install,
     isInstalled: isInstalled,
-    isInstallable: isInstallable
+    install: install,
+	setupMockups: setupMockups
   };
 
   if(typeof define === 'function' && define.amd) {
