@@ -95,7 +95,7 @@ function isInstalledResult(error, appIsInstalled) {
 AppInstall.isInstalled(manifestPath, isInstalledResult);
 ````
 
-### install(manifestPath, callback) - initiate the app installation process (asynchronous)
+### `install(manifestPath, callback)` - initiate the app installation process (asynchronous)
 
 As in `isInstalled`, you can use `guessManifestPath` to fill the value of `manifestPath`.
 
@@ -117,7 +117,7 @@ AppInstall.install(manifestPath, installResult);
 
 ````
 
-### setupMockups(mockupWindow) - for testing purposes (synchronous)
+### `setupMockups(mockupWindow)` - for testing purposes (synchronous)
 
 Since we run tests in a `node.js` environment but that environment doesn't have a `window` object let alone a `mozApps` property in `window`, we have to somehow simulate that exists. So the purpose of `setupMockups` is to pass in a mockup object that acts as `window` would, only it's not a true `window` object, so we can configure it to have `mozApps` fail or be successful on purpose and test that the right things happen at the right moment.
 
