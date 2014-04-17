@@ -18,14 +18,6 @@ win.navigator.mozApps = require('./mozApps-mockup');
 var AppInstall = require('../src/AppInstall');
 AppInstall.setupMockups(win);
 
-
-/*
-  guessManifestPath: guessManifestPath,
-  isInstalled: isInstalled,
-  isInstallable: isInstallable
-  install: install,
-*/
-
 tests.isInstallable = function(test) {
   test.expect(1);
 
@@ -125,6 +117,31 @@ tests.checkInstalledAppIsInstalled = function(test) {
   });
 };
 
+
+tests.installWorks = function(test) {
+  test.expect(2);
+
+  // not throw errors
+  // say it is installed isInstalled
+
+  win.location.mockupReset();
+
+  var manifestPath = AppInstall.guessManifestPath();
+
+  win.navigator.mozApps.mockupAppIsInstalled = false;
+  win.navigator.mozApps.mockupAppWillBeInstalled = true;
+
+  AppInstall.install(manifestPath, function(error) {
+
+    test.equals(error, false);
+
+    AppInstall.isInstalled(manifestPath, function(error, result) {
+      test.equals(result, true);
+      test.done();
+    });
+
+  });
+};
 
 
 module.exports = tests;

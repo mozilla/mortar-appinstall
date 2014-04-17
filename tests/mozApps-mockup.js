@@ -48,7 +48,6 @@ function FakeInstallAppDOMRequest() {
   FakeDOMRequest.call(this);
 
   this.execute = function() {
-    console.log('I am something else2');
 
     this.readyState = 'done';
 
@@ -61,9 +60,11 @@ function FakeInstallAppDOMRequest() {
       if(mozApps.mockupAppWillBeInstalled) {
         mozApps.mockupAppIsInstalled = true;
         this.result = {}; // TODO should be an App object
+        this.onsuccess();
       } else {
         this.result = null;
       }
+
     }
   };
 
