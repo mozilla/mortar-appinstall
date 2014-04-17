@@ -21,13 +21,43 @@ Or download the latest version in this [ZIP file](https://github.com/mozilla/mor
 
 This library only works for installing or checking the status of hosted apps.
 
-TODO
+Include the library in the document from where you want to manage the installation of your app. It has to be loaded before you try to access it. E.g. if you use `AppInstall` in `main.js`, load `AppInstall` first:
 
-**(If it's a hosted app)**
+````html
+<script src="AppInstall.js"></script>
+<script src="main.js"></script>
+````
 
-Start a local server to simulate accessing the hosted app from the browser, and trying the *Install* button flow.
+Most of the methods in `AppInstall` are asynchronous, meaning they will return immediately without blocking execution, but the actual results might take a little longer to be obtained, and will be returned via a callback. For example, if you want to check if the app is installed already:
 
-For example:
+````javascript
+// Generates an absolute path to manifest.webapp,
+// even if running from a folder.
+// Or you can pass it the path to the file too, it's up to you.
+var manifestPath = AppInstall.guessManifestPath(); 
+
+// We'll pass this callback as a parameter to AppInstall.isInstalled
+// It's cleaner to define it here rather than passing it inline
+function isInstalledResult(error, appIsInstalled) {
+	if(error) {
+		alert('There was an error checking for installation status');
+	} else {
+		if(appIsInstalled) {
+			alert('App is installed');
+		} else {
+			alert('App is not installed yet');
+		}
+	}
+}
+
+AppInstall.isInstalled(manifestPath, isInstalledResult);
+````
+
+Apps cannot be installed if the page is accessed via the `file:///` protocol. That means you'll get either all failures or security errors if you try to install or check for install status from a document.
+
+You'll need to test this out using at least a local server. The good news is this is quite easy to do in most systems!
+
+For example, if you're running Linux or Mac you can do:
 
 ````bash
 python -m SimpleHTTPServer 8000
@@ -36,6 +66,43 @@ python -m SimpleHTTPServer 8000
 then access `localhost:8000` or `your.computer.ip:8000` (for example, `192.168.0.25`) using Firefox (Desktop or Mobile), or the Browser app in a Firefox OS simulator (or device).
 
 You'll need to use the IP address when using a physical device. Change the port accordingly, if you're running a webserver in this port already.
+
+Then...
+
+### `isInstallable()` - checking if the app is installable (synchronous)
+
+This ensures that we are running in an environment where apps can actually be installed.
+
+````javascript
+var canBeInstalled = AppInstall.isInstallable();
+
+if(canBeInstalled) {
+	// perhaps show install button
+}
+````
+
+### `guessManifestPath()` - build absolute path to the manifest (synchronous)
+
+You need to provide an absolute path to the `manifest.webapp` file, meaning you can't just say `install('manifest.webapp')`. Since you might be testing in different environments (localhost, your staging server, etc) and you should never hardcode values, we're providing this method that will try to guess where the manifest lives, using the existing page as start.
+
+````javascript
+var manifestPath = AppInstall.guessManifestPath();
+````
+
+For example, if you're calling `guessManifestPath` from `http://localhost:8000/index.html`, it should return `http://localhost:8000/manifest.webapp`. But if you later decide to start the server in another port, say `1234`, it would return `http://localhost:1234/manifest.webapp`. When you finally deploy this code to your server, the return value will be `http://example.com/manifest.webapp`.
+
+### `isInstalled(manifestPath, callback)` - checking if the app is already installed (asynchronous)
+
+TODO
+
+### install(manifestPath, callback) - initiate the app installation process (asynchronous)
+
+TODO
+
+### setupMockups() - for testing purposes (synchronous)
+
+TODO
+
 
 ## Running tests
 
