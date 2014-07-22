@@ -1,4 +1,4 @@
-# Mortar AppInstall [![Build Status](https://travis-ci.org/sole/mortar-appinstall.svg?branch=master)](https://travis-ci.org/sole/mortar-appinstall)
+# Mortar AppInstall [![Build Status](https://travis-ci.org/mozilla/mortar-appinstall.svg?branch=master)](https://travis-ci.org/mozilla/mortar-appinstall)
 
 This is a library for helping with Web App installations.
 
@@ -138,7 +138,7 @@ Then cd to the library directory and run
 nodeunit tests/tests.js
 ````
 
-We've set up [Travis](https://travis-ci.org/sole/mortar-appinstall) to run these tests somewhat automatically, so if all the tests pass, we get a "build passing" badge on top, right to the repository name.
+We've set up [Travis](https://travis-ci.org/mozilla/mortar-appinstall) to run these tests somewhat automatically, so if all the tests pass, we get a "build passing" badge on top, right to the repository name.
 
 ## Code walkthrough
 
