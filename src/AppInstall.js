@@ -1,5 +1,6 @@
 (function() {
-  
+
+  // Mortar AppInstall version 0.0.2
   var _window = {
     'location': {
       'host': 'example.com',
@@ -77,11 +78,11 @@
 
 
   var AppInstall = {
-	isInstallable: isInstallable,
+    isInstallable: isInstallable,
     guessManifestPath: guessManifestPath,
     isInstalled: isInstalled,
     install: install,
-	setupMockups: setupMockups
+    setupMockups: setupMockups
   };
 
   if(typeof define === 'function' && define.amd) {
